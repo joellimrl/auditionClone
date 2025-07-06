@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1e3c72;
+            color: white;
+        }
+        .debug {
+            background: #333;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .arrow {
+            display: inline-block;
+            padding: 10px;
+            margin: 5px;
+            background: #333;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+        .arrow.active {
+            background: #4CAF50;
+        }
+        .arrow.completed {
+            background: #2196F3;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        .feedback {
+            font-size: 24px;
+            margin: 10px 0;
+            min-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Game Debug Test</h1>
+    
+    <div class="debug">
+        <h3>Game State:</h3>
+        <div id="debugInfo">Loading...</div>
+    </div>
+    
+    <div>
+        <div>Score: <span id="score">0</span></div>
+        <div>Mistakes: <span id="mistakes">0</span></div>
+        <div>Game Time: <span id="timer">60</span></div>
+        <div>Line Time: <span id="lineTimer">0</span></div>
+    </div>
+    
+    <div id="sequenceDisplay" style="margin: 20px 0;"></div>
+    <div id="inputFeedback" class="feedback"></div>
+    
+    <div>
+        <button id="startBtn">Start Game</button>
+        <button id="pauseBtn" disabled>Pause</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+    
+    <div id="gameOverScreen" style="display: none;">
+        <h2>Game Over!</h2>
+        <p>Final Score: <span id="finalScore">0</span></p>
+        <p>Total Mistakes: <span id="totalMistakes">0</span></p>
+        <p>Lines Completed: <span id="linesCompleted">0</span></p>
+        <p>Average Line Time: <span id="avgLineTime">0</span>s</p>
+        <button id="restartBtn">Play Again</button>
+    </div>
+
+    <script src="js/game.js"></script>
+    <script>
+        // Debug function
+        function updateDebugInfo() {
+            const debugElement = document.getElementById('debugInfo');
+            if (window.Game) {
+                debugElement.innerHTML = `
+                    <div>Initialized: ${Game.state.initialized}</div>
+                    <div>Playing: ${Game.state.isPlaying}</div>
+                    <div>Paused: ${Game.state.isPaused}</div>
+                    <div>Current Sequence: ${Game.state.currentSequence.join(', ')}</div>
+                    <div>Current Input Index: ${Game.state.currentInputIndex}</div>
+                    <div>Lines Completed: ${Game.state.linesCompleted}</div>
+                `;
+            } else {
+                debugElement.innerHTML = 'Game object not available';
+            }
+        }
+        
+        // Update debug info every second
+        setInterval(updateDebugInfo, 1000);
+        
+        // Test keyboard input
+        document.addEventListener('keydown', (e) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                console.log('Key pressed:', e.key);
+                if (window.Game && Game.handleInput) {
+                    Game.handleInput(e.key);
+                }
+            }
+        });
+        
+        // Initialize when ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            if (window.Game) {
+                Game.init();
+                updateDebugInfo();
+            } else {
+                console.error('Game object not found');
+            }
+        });
+    </script>
+</body>
+</html>

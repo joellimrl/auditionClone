@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Feedback Area</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        .test-container {
+            border: 2px solid #fff;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .test-btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        .test-btn:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h2>Test Feedback Area Stability</h2>
+        <div class="input-feedback" id="testFeedback"> </div>
+        <div style="margin-top: 20px;">
+            <button class="test-btn" onclick="showFeedback('Perfect!', 'feedback-perfect')">Show Perfect</button>
+            <button class="test-btn" onclick="showFeedback('Good!', 'feedback-good')">Show Good</button>
+            <button class="test-btn" onclick="showFeedback('Miss!', 'feedback-miss')">Show Miss</button>
+            <button class="test-btn" onclick="clearFeedback()">Clear</button>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>Test Game Over Screen</h2>
+        <button class="test-btn" onclick="showGameOver()">Show Game Over</button>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div class="game-over" id="gameOverScreen" style="display: none;">
+        <div class="game-over-content">
+            <button class="game-over-close" id="gameOverCloseBtn">×</button>
+            <h2>Game Over!</h2>
+            <p>Final Score: <span id="finalScore">12,345</span></p>
+            <p>Total Mistakes: <span id="totalMistakes">3</span></p>
+            <p>Lines Completed: <span id="linesCompleted">15</span></p>
+            <p>Average Line Time: <span id="avgLineTime">2.5</span>s</p>
+            <button class="btn btn-primary">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const testFeedback = document.getElementById('testFeedback');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const gameOverCloseBtn = document.getElementById('gameOverCloseBtn');
+        
+        // Initialize with non-breaking space
+        testFeedback.textContent = '\u00a0';
+        
+        function showFeedback(text, className) {
+            testFeedback.textContent = text;
+            testFeedback.className = className;
+            
+            // Clear after 2 seconds
+            setTimeout(() => {
+                testFeedback.textContent = '\u00a0';
+                testFeedback.className = '';
+            }, 2000);
+        }
+        
+        function clearFeedback() {
+            testFeedback.textContent = '\u00a0';
+            testFeedback.className = '';
+        }
+        
+        function showGameOver() {
+            gameOverScreen.style.display = 'flex';
+        }
+        
+        function hideGameOver() {
+            gameOverScreen.style.display = 'none';
+        }
+        
+        // Add close button functionality
+        gameOverCloseBtn.addEventListener('click', hideGameOver);
+        
+        // Click outside to close
+        gameOverScreen.addEventListener('click', function(e) {
+            if (e.target === gameOverScreen) {
+                hideGameOver();
+            }
+        });
+    </script>
+</body>
+</html>

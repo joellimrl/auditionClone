@@ -1,0 +1,96 @@
+C<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audition Clone - Rhythm Game</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Game Header -->
+        <header class="game-header">
+            <div class="score-display">
+                <span class="label">Score:</span>
+                <span id="score">0</span>
+            </div>
+            <div class="combo-display">
+                <span class="label">Mistakes:</span>
+                <span id="mistakes">0</span>
+            </div>
+            <div class="timer-display">
+                <span class="label">Game Time:</span>
+                <span id="timer">60</span>
+            </div>
+            <div class="line-timer-display">
+                <span class="label">Line Time:</span>
+                <span id="lineTimer">0</span>
+            </div>
+        </header>
+
+        <!-- Instructions -->
+        <div class="instructions" style="margin-bottom: 20px; text-align: center;">
+            <h3>How to Play:</h3>
+            <p>1. Press the arrow keys to match the sequence as fast as possible</p>
+            <p>2. If you make a mistake, press the correct key to continue</p>
+            <p>3. Complete each line before the timer runs out</p>
+            <p>4. Game lasts 60 seconds - complete as many lines as you can!</p>
+        </div>
+
+        <!-- Main Game Area -->
+        <main class="game-area">
+            <div class="sequence-display" id="sequenceDisplay">
+                <!-- Arrow sequences will be dynamically generated here -->
+            </div>
+            
+            <div class="input-area">
+                <div class="arrow-keys">
+                    <div class="arrow-key up" data-key="ArrowUp">↑</div>
+                    <div class="arrow-key-row">
+                        <div class="arrow-key left" data-key="ArrowLeft">←</div>
+                        <div class="arrow-key down" data-key="ArrowDown">↓</div>
+                        <div class="arrow-key right" data-key="ArrowRight">→</div>
+                    </div>
+                </div>
+                <div class="input-feedback" id="inputFeedback"></div>
+            </div>
+        </main>
+
+        <!-- Game Controls -->
+        <div class="game-controls">
+            <button id="startBtn" class="btn btn-primary">Start Game</button>
+            <button id="pauseBtn" class="btn btn-secondary" disabled>Pause</button>
+            <button id="resetBtn" class="btn btn-danger">Reset</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div class="game-over" id="gameOverScreen" style="display: none;">
+            <div class="game-over-content">
+                <button class="game-over-close" id="gameOverCloseBtn">×</button>
+                <h2>Game Over!</h2>
+                <p>Final Score: <span id="finalScore">0</span></p>
+                <p>Total Mistakes: <span id="totalMistakes">0</span></p>
+                <p>Lines Completed: <span id="linesCompleted">0</span></p>
+                <p>Average Line Time: <span id="avgLineTime">0</span>s</p>
+                <button id="restartBtn" class="btn btn-primary">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/game.js"></script>
+    <script src="js/input.js"></script>
+    <script src="js/timing.js"></script>
+    <script src="js/sequence.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/audio.js"></script>
+    
+    <script>
+        // Initialize the game when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            Game.init();
+        });
+    </script>
+</body>
+</html>
