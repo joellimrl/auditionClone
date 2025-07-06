@@ -26,7 +26,7 @@ A web-based rhythm game inspired by Audition SEA, featuring arrow sequence match
 
 ## Controls
 
-- **Arrow Keys**: ↑ ↓ ← → (or click/tap the on-screen arrows)
+- **Arrow Keys**: ⬆ ⬇ ⬅ ➡ (or click/tap the on-screen arrows)
 - **Start Game**: Begin a new game
 - **Pause**: Pause the current game
 - **Reset**: Reset the game to initial state

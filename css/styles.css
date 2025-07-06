@@ -72,31 +72,38 @@ body {
 }
 
 .sequence-display {
-    min-height: 200px;
+    height: 200px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 20px;
     margin-bottom: 50px;
     padding: 20px;
     background: rgba(0, 0, 0, 0.3);
     border-radius: 15px;
     border: 2px solid rgba(255, 255, 255, 0.1);
+    overflow-x: auto;
+    overflow-y: hidden;
+    contain: layout;
+    will-change: auto;
 }
 
 .arrow {
-    font-size: 48px;
+    font-size: 56px;
+    font-weight: 900;
     padding: 15px;
     min-width: 80px;
     min-height: 80px;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
     position: relative;
-    border-radius: 15px;
+    border-radius: 50%;
     border: none;
     background: linear-gradient(145deg, #4a90e2, #357abd);
     box-shadow: 
@@ -106,6 +113,10 @@ body {
         inset 0 -2px 4px rgba(0, 0, 0, 0.2);
     color: white;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+    contain: layout style;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .arrow.active {
@@ -116,17 +127,23 @@ body {
         inset 0 2px 4px rgba(255, 255, 255, 0.4),
         inset 0 -2px 4px rgba(0, 0, 0, 0.1),
         0 0 20px rgba(76, 175, 80, 0.5);
-    transform: scale(1.1);
+    transform: scale(1.05);
+    contain: layout style;
+    backface-visibility: hidden;
+    transform-origin: center center;
 }
 
 .arrow.correct {
-    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    background: linear-gradient(145deg, #2ecc71, #27ae60) !important;
     box-shadow: 
         0 8px 16px rgba(0, 0, 0, 0.3),
         0 4px 8px rgba(0, 0, 0, 0.2),
         inset 0 2px 4px rgba(255, 255, 255, 0.3),
         inset 0 -2px 4px rgba(0, 0, 0, 0.2);
     animation: correctHit 0.5s ease-out;
+    contain: layout style;
+    backface-visibility: hidden;
+    transform-origin: center center;
 }
 
 .arrow.incorrect {
@@ -137,6 +154,9 @@ body {
         inset 0 2px 4px rgba(255, 255, 255, 0.3),
         inset 0 -2px 4px rgba(0, 0, 0, 0.2);
     animation: incorrectHit 0.5s ease-out;
+    contain: layout style;
+    backface-visibility: hidden;
+    transform-origin: center center;
 }
 
 .arrow.missed {
@@ -147,10 +167,13 @@ body {
         inset 0 2px 4px rgba(255, 255, 255, 0.2),
         inset 0 -2px 4px rgba(0, 0, 0, 0.3);
     opacity: 0.5;
+    contain: layout style;
+    backface-visibility: hidden;
+    transform-origin: center center;
 }
 
 .arrow.completed {
-    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    background: linear-gradient(145deg, #2ecc71, #27ae60) !important;
     box-shadow: 
         0 8px 16px rgba(0, 0, 0, 0.3),
         0 4px 8px rgba(0, 0, 0, 0.2),
@@ -158,6 +181,9 @@ body {
         inset 0 -2px 4px rgba(0, 0, 0, 0.2);
     color: white;
     opacity: 0.8;
+    contain: layout style;
+    backface-visibility: hidden;
+    transform-origin: center center;
 }
 
 /* Input Area Styles */
@@ -166,6 +192,14 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    /* Prevent layout shifts - FIXED HEIGHT */
+    min-height: 180px;
+    max-height: 180px;
+    height: 180px;
+    position: relative;
+    contain: layout style;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .arrow-keys {
@@ -181,7 +215,8 @@ body {
 }
 
 .arrow-key {
-    font-size: 32px;
+    font-size: 40px;
+    font-weight: 900;
     padding: 15px;
     width: 60px;
     height: 60px;
@@ -191,7 +226,7 @@ body {
     cursor: pointer;
     transition: all 0.1s ease;
     user-select: none;
-    border-radius: 12px;
+    border-radius: 50%;
     position: relative;
     border: none;
     background: linear-gradient(145deg, #4a90e2, #357abd);
@@ -224,70 +259,85 @@ body {
         inset 0 -1px 2px rgba(255, 255, 255, 0.2);
 }
 
-/* Specific arrow key colors */
+/* Specific arrow key colors - All Blue */
 .arrow-key.up {
     background: linear-gradient(145deg, #4a90e2, #357abd);
 }
 
 .arrow-key.down {
-    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    background: linear-gradient(145deg, #4a90e2, #357abd);
 }
 
 .arrow-key.left {
-    background: linear-gradient(145deg, #f39c12, #e67e22);
+    background: linear-gradient(145deg, #4a90e2, #357abd);
 }
 
 .arrow-key.right {
-    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    background: linear-gradient(145deg, #4a90e2, #357abd);
 }
 
-/* Hover states for colored arrows */
+/* Hover states for colored arrows - All Blue */
 .arrow-key.up:hover {
     background: linear-gradient(145deg, #5ba0f2, #4080cd);
 }
 
 .arrow-key.down:hover {
-    background: linear-gradient(145deg, #f75c4c, #d0493b);
+    background: linear-gradient(145deg, #5ba0f2, #4080cd);
 }
 
 .arrow-key.left:hover {
-    background: linear-gradient(145deg, #f4ac22, #f68e32);
+    background: linear-gradient(145deg, #5ba0f2, #4080cd);
 }
 
 .arrow-key.right:hover {
-    background: linear-gradient(145deg, #3edc81, #37be70);
+    background: linear-gradient(145deg, #5ba0f2, #4080cd);
 }
 
-/* Pressed states for colored arrows */
+/* Pressed states for colored arrows - All Blue (Darker) */
 .arrow-key.up.pressed {
     background: linear-gradient(145deg, #357abd, #2a5f99);
 }
 
 .arrow-key.down.pressed {
-    background: linear-gradient(145deg, #c0392b, #a93226);
+    background: linear-gradient(145deg, #357abd, #2a5f99);
 }
 
 .arrow-key.left.pressed {
-    background: linear-gradient(145deg, #e67e22, #d35400);
+    background: linear-gradient(145deg, #357abd, #2a5f99);
 }
 
 .arrow-key.right.pressed {
-    background: linear-gradient(145deg, #27ae60, #1e8449);
+    background: linear-gradient(145deg, #357abd, #2a5f99);
 }
 
 .input-feedback {
-    min-height: 60px;
+    height: 80px;
     font-size: 24px;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    /* Ensure the feedback area always maintains its height */
+    /* Ensure the feedback area always maintains its height and position */
     border: 2px solid transparent;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.05);
     margin-top: 10px;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-align: center;
+    line-height: 1;
+    contain: layout style;
+    transform-origin: center center;
+    backface-visibility: hidden;
+    /* Prevent any layout shifts - FIXED HEIGHT */
+    min-height: 80px;
+    max-height: 80px;
+    width: 100%;
+    box-sizing: border-box;
+    /* Force position to be absolutely stable */
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .feedback-perfect {
@@ -323,7 +373,6 @@ body {
 .feedback-complete {
     color: #2196F3;
     animation: feedbackPulse 0.8s ease-out;
-    font-weight: bold;
     border-color: rgba(33, 150, 243, 0.3);
 }
 
@@ -464,20 +513,30 @@ body {
     }
     
     .arrow {
-        font-size: 36px;
+        font-size: 44px;
+        font-weight: 900;
         min-width: 60px;
         min-height: 60px;
     }
     
     .arrow-key {
-        font-size: 24px;
+        font-size: 32px;
+        font-weight: 900;
         width: 50px;
         height: 50px;
     }
     
     .input-feedback {
-        min-height: 50px;
+        height: 70px;
         font-size: 20px;
+        min-height: 70px;
+        max-height: 70px;
+    }
+    
+    .input-area {
+        min-height: 160px;
+        max-height: 160px;
+        height: 160px;
     }
     
     .game-over-content {
@@ -491,38 +550,48 @@ body {
     .game-over p {
         font-size: 20px;
     }
+    
+    .feedback-perfect,
+    .feedback-good,
+    .feedback-miss,
+    .feedback-correct,
+    .feedback-incorrect,
+    .feedback-complete,
+    .feedback-timeout {
+        font-size: 18px;
+    }
 }
 
-/* Specific arrow direction colors for sequence display */
+/* Specific arrow direction colors for sequence display - All Blue */
 .arrow[data-key="ArrowUp"] {
     background: linear-gradient(145deg, #4a90e2, #357abd);
 }
 
 .arrow[data-key="ArrowDown"] {
-    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    background: linear-gradient(145deg, #4a90e2, #357abd);
 }
 
 .arrow[data-key="ArrowLeft"] {
-    background: linear-gradient(145deg, #f39c12, #e67e22);
+    background: linear-gradient(145deg, #4a90e2, #357abd);
 }
 
 .arrow[data-key="ArrowRight"] {
-    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    background: linear-gradient(145deg, #4a90e2, #357abd);
 }
 
-/* Active states for colored sequence arrows */
+/* Active states for colored sequence arrows - All Blue */
 .arrow[data-key="ArrowUp"].active {
     background: linear-gradient(145deg, #5ba0f2, #4080cd);
 }
 
 .arrow[data-key="ArrowDown"].active {
-    background: linear-gradient(145deg, #f75c4c, #d0493b);
+    background: linear-gradient(145deg, #5ba0f2, #4080cd);
 }
 
 .arrow[data-key="ArrowLeft"].active {
-    background: linear-gradient(145deg, #f4ac22, #f68e32);
+    background: linear-gradient(145deg, #5ba0f2, #4080cd);
 }
 
 .arrow[data-key="ArrowRight"].active {
-    background: linear-gradient(145deg, #3edc81, #37be70);
+    background: linear-gradient(145deg, #5ba0f2, #4080cd);
 }

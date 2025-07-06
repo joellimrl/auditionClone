@@ -348,22 +348,44 @@ const Game = {
 
     // Display Current Sequence
     displaySequence() {
-        this.elements.sequenceDisplay.innerHTML = '';
-        
-        this.state.currentSequence.forEach((arrow, index) => {
-            const arrowElement = document.createElement('div');
-            arrowElement.className = 'arrow';
-            arrowElement.textContent = this.getArrowSymbol(arrow);
-            arrowElement.dataset.index = index;
-            arrowElement.dataset.key = arrow; // Add data-key attribute for styling
+        // Only recreate if sequence has changed
+        if (this.elements.sequenceDisplay.children.length !== this.state.currentSequence.length) {
+            this.elements.sequenceDisplay.innerHTML = '';
             
-            if (index === this.state.currentInputIndex) {
-                arrowElement.classList.add('active');
-            } else if (index < this.state.currentInputIndex) {
-                arrowElement.classList.add('completed');
+            this.state.currentSequence.forEach((arrow, index) => {
+                const arrowElement = document.createElement('div');
+                arrowElement.className = 'arrow';
+                arrowElement.textContent = this.getArrowSymbol(arrow);
+                arrowElement.dataset.index = index;
+                arrowElement.dataset.key = arrow; // Add data-key attribute for styling
+                
+                this.elements.sequenceDisplay.appendChild(arrowElement);
+            });
+        }
+        
+        // Update classes of existing elements
+        Array.from(this.elements.sequenceDisplay.children).forEach((arrowElement, index) => {
+            // Preserve correct/incorrect classes, but reset others
+            const hasCorrect = arrowElement.classList.contains('correct');
+            const hasIncorrect = arrowElement.classList.contains('incorrect');
+            
+            // Reset all classes
+            arrowElement.className = 'arrow';
+            arrowElement.dataset.key = this.state.currentSequence[index];
+            
+            // Restore correct/incorrect classes
+            if (hasCorrect) {
+                arrowElement.classList.add('correct');
+            } else if (hasIncorrect) {
+                arrowElement.classList.add('incorrect');
             }
             
-            this.elements.sequenceDisplay.appendChild(arrowElement);
+            // Apply state-specific classes
+            if (index === this.state.currentInputIndex) {
+                arrowElement.classList.add('active');
+            } else if (index < this.state.currentInputIndex && !hasCorrect && !hasIncorrect) {
+                arrowElement.classList.add('completed');
+            }
         });
     },
 
@@ -479,10 +501,10 @@ const Game = {
     // Get Arrow Symbol
     getArrowSymbol(key) {
         const symbols = {
-            'ArrowUp': '↑',
-            'ArrowDown': '↓',
-            'ArrowLeft': '←',
-            'ArrowRight': '→'
+            'ArrowUp': '⬆',
+            'ArrowDown': '⬇',
+            'ArrowLeft': '⬅',
+            'ArrowRight': '➡'
         };
         return symbols[key] || '?';
     },
